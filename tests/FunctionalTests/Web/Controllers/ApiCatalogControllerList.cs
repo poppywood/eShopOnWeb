@@ -1,17 +1,26 @@
-﻿using Microsoft.eShopWeb.ViewModels;
+﻿using Microsoft.eShopWeb.Web;
+using Microsoft.eShopWeb.Web.ViewModels;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace FunctionalTests.Web.Controllers
+namespace Microsoft.eShopWeb.FunctionalTests.Web.Controllers
 {
-    public class ApiCatalogControllerList : BaseWebTest
+    public class ApiCatalogControllerList : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
+        public ApiCatalogControllerList(CustomWebApplicationFactory<Startup> factory)
+        {
+            Client = factory.CreateClient();
+        }
+
+        public HttpClient Client { get; }
+
         [Fact]
         public async Task ReturnsFirst10CatalogItems()
         {
-            var response = await _client.GetAsync("/api/catalog/list");
+            var response = await Client.GetAsync("/api/catalog/list");
             response.EnsureSuccessStatusCode();
             var stringResponse = await response.Content.ReadAsStringAsync();
             var model = JsonConvert.DeserializeObject<CatalogIndexViewModel>(stringResponse);
@@ -22,7 +31,7 @@ namespace FunctionalTests.Web.Controllers
         [Fact]
         public async Task ReturnsLast2CatalogItemsGivenPageIndex1()
         {
-            var response = await _client.GetAsync("/api/catalog/list?page=1");
+            var response = await Client.GetAsync("/api/catalog/list?page=1");
             response.EnsureSuccessStatusCode();
             var stringResponse = await response.Content.ReadAsStringAsync();
             var model = JsonConvert.DeserializeObject<CatalogIndexViewModel>(stringResponse);

@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Microsoft.eShopWeb.ViewModels.Account
+namespace Microsoft.eShopWeb.Web.ViewModels.Account
 {
     public class RegisterViewModel
     {

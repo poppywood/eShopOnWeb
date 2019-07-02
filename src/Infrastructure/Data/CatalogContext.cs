@@ -1,9 +1,10 @@
-﻿using ApplicationCore.Entities.OrderAggregate;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.eShopWeb.ApplicationCore.Entities;
+using Microsoft.eShopWeb.ApplicationCore.Entities.BasketAggregate;
+using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 
-namespace Infrastructure.Data
+namespace Microsoft.eShopWeb.Infrastructure.Data
 {
 
     public class CatalogContext : DbContext
@@ -18,6 +19,7 @@ namespace Infrastructure.Data
         public DbSet<CatalogType> CatalogTypes { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,6 +29,45 @@ namespace Infrastructure.Data
             builder.Entity<CatalogItem>(ConfigureCatalogItem);
             builder.Entity<Order>(ConfigureOrder);
             builder.Entity<OrderItem>(ConfigureOrderItem);
+            builder.Entity<Address>(ConfigureAddress);
+            builder.Entity<CatalogItemOrdered>(ConfigurateCatalogItemOrdered);
+            builder.Entity<BasketItem>(ConfigureBasketItem);
+        }
+
+        private void ConfigureBasketItem(EntityTypeBuilder<BasketItem> builder)
+        {
+            builder.Property(bi => bi.UnitPrice)
+                .IsRequired(true)
+                .HasColumnType("decimal(18,2)");
+        }
+
+        private void ConfigurateCatalogItemOrdered(EntityTypeBuilder<CatalogItemOrdered> builder)
+        {
+            builder.Property(cio => cio.ProductName)
+                .HasMaxLength(50)
+                .IsRequired();
+        }
+
+        private void ConfigureAddress(EntityTypeBuilder<Address> builder)
+        {
+            builder.Property(a => a.ZipCode)
+                .HasMaxLength(18)
+                .IsRequired();
+
+            builder.Property(a => a.Street)
+                .HasMaxLength(180)
+                .IsRequired();
+
+            builder.Property(a => a.State)
+                .HasMaxLength(60);
+
+            builder.Property(a => a.Country)
+                .HasMaxLength(90)
+                .IsRequired();
+
+            builder.Property(a => a.City)
+                .HasMaxLength(100)
+                .IsRequired();
         }
 
         private void ConfigureBasket(EntityTypeBuilder<Basket> builder)
@@ -49,7 +90,8 @@ namespace Infrastructure.Data
                 .HasMaxLength(50);
 
             builder.Property(ci => ci.Price)
-                .IsRequired(true);
+                .IsRequired(true)
+                .HasColumnType("decimal(18,2)");
 
             builder.Property(ci => ci.PictureUri)
                 .IsRequired(false);
@@ -105,6 +147,10 @@ namespace Infrastructure.Data
         private void ConfigureOrderItem(EntityTypeBuilder<OrderItem> builder)
         {
             builder.OwnsOne(i => i.ItemOrdered);
+
+            builder.Property(oi => oi.UnitPrice)
+                .IsRequired(true)
+                .HasColumnType("decimal(18,2)");
         }
     }
 }

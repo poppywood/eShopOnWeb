@@ -1,15 +1,15 @@
-﻿using ApplicationCore.Services;
+﻿using Microsoft.eShopWeb.ApplicationCore.Services;
 using System;
 using Xunit;
 
-namespace UnitTests.ApplicationCore.Services.BasketServiceTests
+namespace Microsoft.eShopWeb.UnitTests.ApplicationCore.Services.BasketServiceTests
 {
     public class TransferBasket
     {
         [Fact]
         public async void ThrowsGivenNullAnonymousId()
         {
-            var basketService = new BasketService(null, null, null, null);
+            var basketService = new BasketService(null, null);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await basketService.TransferBasketAsync(null, "steve"));
         }
@@ -17,7 +17,7 @@ namespace UnitTests.ApplicationCore.Services.BasketServiceTests
         [Fact]
         public async void ThrowsGivenNullUserId()
         {
-            var basketService = new BasketService(null, null, null, null);
+            var basketService = new BasketService(null, null);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await basketService.TransferBasketAsync("abcdefg", null));
         }

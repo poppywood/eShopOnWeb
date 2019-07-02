@@ -1,20 +1,20 @@
-﻿using Microsoft.eShopWeb.Services;
+﻿using Microsoft.eShopWeb.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace Microsoft.eShopWeb.Controllers.Api
+namespace Microsoft.eShopWeb.Web.Controllers.Api
 {
     public class CatalogController : BaseApiController
     {
-        private readonly ICatalogService _catalogService;
+        private readonly ICatalogViewModelService _catalogViewModelService;
 
-        public CatalogController(ICatalogService catalogService) => _catalogService = catalogService;
+        public CatalogController(ICatalogViewModelService catalogViewModelService) => _catalogViewModelService = catalogViewModelService;
 
         [HttpGet]
         public async Task<IActionResult> List(int? brandFilterApplied, int? typesFilterApplied, int? page)
         {
             var itemsPage = 10;           
-            var catalogModel = await _catalogService.GetCatalogItems(page ?? 0, itemsPage, brandFilterApplied, typesFilterApplied);
+            var catalogModel = await _catalogViewModelService.GetCatalogItems(page ?? 0, itemsPage, brandFilterApplied, typesFilterApplied);
             return Ok(catalogModel);
         }
     }

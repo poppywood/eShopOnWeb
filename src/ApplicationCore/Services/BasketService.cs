@@ -1,29 +1,23 @@
-﻿using ApplicationCore.Interfaces;
+﻿using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ApplicationCore.Specifications;
-using Microsoft.eShopWeb.ApplicationCore.Entities;
+using Microsoft.eShopWeb.ApplicationCore.Specifications;
 using System.Linq;
 using Ardalis.GuardClauses;
+using Microsoft.eShopWeb.ApplicationCore.Entities.BasketAggregate;
 
-namespace ApplicationCore.Services
+namespace Microsoft.eShopWeb.ApplicationCore.Services
 {
     public class BasketService : IBasketService
     {
         private readonly IAsyncRepository<Basket> _basketRepository;
-        private readonly IUriComposer _uriComposer;
         private readonly IAppLogger<BasketService> _logger;
-        private readonly IRepository<CatalogItem> _itemRepository;
 
         public BasketService(IAsyncRepository<Basket> basketRepository,
-            IRepository<CatalogItem> itemRepository,
-            IUriComposer uriComposer,
             IAppLogger<BasketService> logger)
         {
             _basketRepository = basketRepository;
-            _uriComposer = uriComposer;
-            this._logger = logger;
-            _itemRepository = itemRepository;
+            _logger = logger;
         }
 
         public async Task AddItemToBasket(int basketId, int catalogItemId, decimal price, int quantity)
@@ -38,7 +32,6 @@ namespace ApplicationCore.Services
         public async Task DeleteBasketAsync(int basketId)
         {
             var basket = await _basketRepository.GetByIdAsync(basketId);
-
             await _basketRepository.DeleteAsync(basket);
         }
 

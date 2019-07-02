@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
-using System.Collections.Generic;
 
-namespace Infrastructure.Data.Migrations
+namespace Microsoft.eShopWeb.Infrastructure.Data.Migrations
 {
     public partial class Initial : Migration
     {

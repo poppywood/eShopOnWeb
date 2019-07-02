@@ -1,8 +1,8 @@
-﻿using Microsoft.eShopWeb.ApplicationCore.Entities;
+﻿using Microsoft.eShopWeb.ApplicationCore.Entities.BasketAggregate;
 
-namespace ApplicationCore.Specifications
+namespace Microsoft.eShopWeb.ApplicationCore.Specifications
 {
-    public class BasketWithItemsSpecification : BaseSpecification<Basket>
+    public sealed class BasketWithItemsSpecification : BaseSpecification<Basket>
     {
         public BasketWithItemsSpecification(int basketId)
             :base(b => b.Id == basketId)

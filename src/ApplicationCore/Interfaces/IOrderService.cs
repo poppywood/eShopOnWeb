@@ -1,8 +1,7 @@
-﻿using ApplicationCore.Entities.OrderAggregate;
-using System.Collections.Generic;
+﻿using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 using System.Threading.Tasks;
 
-namespace ApplicationCore.Interfaces
+namespace Microsoft.eShopWeb.ApplicationCore.Interfaces
 {
     public interface IOrderService
     {
